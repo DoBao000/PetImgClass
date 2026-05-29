@@ -12,7 +12,6 @@ BATCH_SIZE = 64  # Mini-batch size for SGD
 VALID_EXT = {'.jpg', '.jpeg', '.png', '.bmp', '.webp'}
 # --------------
 
-
 # --- LOAD IMAGES ---
 def load_images(path: str, img_size: tuple) -> tuple:
     images, labels = [], []
