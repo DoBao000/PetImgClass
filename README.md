@@ -25,7 +25,6 @@ A simple deep learning project that classifies images of cats and dogs using a n
   * Softmax activation
   * Cross entropy loss
   * Backpropagation
-  * Gradient descent
 * Cat vs Dog image classification
 * Accuracy evaluation on test data
 
@@ -67,6 +66,32 @@ Dense Hidden Layer (ReLU)
 Output Layer (Softmax)
     ↓
 Prediction (Cat or Dog)
+```
+
+---
+
+## Installation
+
+Make sure you have Python 3.8+ installed, then install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## How to Use
+
+### 1. Prepare the Dataset
+
+Download or place your dataset following the structure shown in the **Dataset Structure** section above. The `data/` folder should sit in the root of the project directory.
+
+### 2. Train and Evaluate the Model
+
+Run the main script to train the neural network and evaluate it on the test set:
+
+```bash
+python main.py
 ```
 
 ---

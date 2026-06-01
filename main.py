@@ -7,8 +7,8 @@ PATH = os.getcwd() + '/data'
 IMG_SIZE = (64, 64)
 SPEED = 43        # Random seed for reproducibility
 EPOCHS = 40      # How many times we pass through the dataset
-LR = 0.001       # Learning rate (lowered: 0.01 overshoots on full-batch)
-BATCH_SIZE = 64  # Mini-batch size for SGD
+LR = 0.001       # Learning rate
+BATCH_SIZE = 64  # Mini-batch size
 VALID_EXT = {'.jpg', '.jpeg', '.png', '.bmp', '.webp'}
 # --------------
 
@@ -35,7 +35,6 @@ def load_images(path: str, img_size: tuple) -> tuple:
 
     return np.array(images), np.array(labels)
 # -------------------
-
 
 # --- NORMALIZE ---
 def normalize_data(X: np.ndarray, img_size: tuple) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -65,7 +64,6 @@ def apply_normalization(X: np.ndarray, img_size: tuple,
     return X_norm.reshape(N, H * W * 3)
 # -----------------
 
-
 # --- ACTIVATION ---
 class Activate:
     def reLU(self, Z: np.ndarray) -> np.ndarray:
@@ -81,7 +79,6 @@ class Activate:
         return exp_vals / np.sum(exp_vals, axis=1, keepdims=True)
 # ------------------
 
-
 # --- LOSS FUNCTION ---
 def cross_entropy_loss(y_pred: np.ndarray, y: np.ndarray) -> float:
     """Mean cross-entropy loss over a batch."""
@@ -89,7 +86,6 @@ def cross_entropy_loss(y_pred: np.ndarray, y: np.ndarray) -> float:
     y_pred = np.clip(y_pred, 1e-9, 1 - 1e-9)  # Prevent log(0)
     return -np.mean(np.log(y_pred[np.arange(m), y]))
 # ---------------------
-
 
 # --- NN MODEL ---
 class NeuralNetwork:
@@ -118,12 +114,12 @@ class NeuralNetwork:
         y_onehot = np.zeros_like(self.A2)
         y_onehot[np.arange(m), y] = 1
 
-        # Output layer gradient (softmax + cross-entropy combined derivative)
+        # Output layer gradient
         dZ2 = self.A2 - y_onehot
         dW2 = (self.A1.T @ dZ2) / m
         db2 = np.sum(dZ2, axis=0, keepdims=True) / m
 
-        # Hidden layer gradient — use Z1 (pre-activation) for ReLU derivative
+        # Hidden layer gradient
         dA1 = dZ2 @ self.W2.T
         dZ1 = dA1 * self.activate.reLU_grad(self.Z1)
         dW1 = (X.T @ dZ1) / m
@@ -139,7 +135,6 @@ class NeuralNetwork:
         probs = self.forward(X)
         return np.argmax(probs, axis=1)
 # ----------------
-
 
 # --- MAIN ---
 if __name__ == '__main__':
