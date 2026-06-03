@@ -96,18 +96,30 @@ python main.py
 
 ---
 
-## Future Improvements
+## AI-Assisted Development
 
-This project is still being improved. Planned future upgrades.
+This project was developed with assistance from Claude (Anthropic) as part of 
+learning to work effectively with AI tools for coding tasks.
 
----
+### How AI was used
 
-## Learning Goals
+**Architecture decisions**  
+Prompted Claude with constraints (no pretrained models, pure NumPy, binary 
+classification) to reason through why He initialization suits ReLU better than 
+random normal, and why softmax+cross-entropy is preferred over sigmoid+BCE 
+for this setup.
 
-This project was created to gain practical experience in deep learning and understand how neural networks work internally rather than only using prebuilt libraries.
+**Debugging**  
+Used AI assistance to identify and fix issues including:
+- Gradient not updating correctly in backpropagation
+- Numerical instability in softmax (resolved via Z-shifting)
+- Channel-wise normalization vs. global normalization tradeoffs
 
----
+**Code review**  
+Iteratively refined code quality — type hints, docstrings, separation of 
+concerns — through back-and-forth prompting rather than one-shot generation.
 
-## Author
-
-Bảo Đỗ Hoàng
+### Key insight
+The value wasn't in generating code — it was in using AI to reason through 
+*why* each implementation choice was made, which deepened understanding 
+of the underlying math.
