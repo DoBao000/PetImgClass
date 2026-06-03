@@ -1,12 +1,31 @@
 import numpy as np
+import csv
+import os
 from src.model import NeuralNetwork
 from src.losses import cross_entropy_loss
+
+
+def save_history(history: dict):
+    os.makedirs('logs', exist_ok=True)
+    file_path = os.path.join('logs', 'metrics.csv')
+
+    with open(file_path, 'w', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(['loss', 'accuracy'])
+        writer.writerow([
+            history['Loss'],
+            history['Accuracy']
+        ])
+
+    print(f'History saved to {file_path}')
 
 
 def train(model: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray,
           epochs: int, batch_size: int) -> None:
     """Train the model using mini-batch gradient descent."""
     N = X_train.shape[0]
+    history = {'Loss': 100, 'Accuracy': -1}
 
     for epoch in range(epochs):
         # Shuffle dataset at the start of each epoch
@@ -33,6 +52,10 @@ def train(model: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray,
         epoch_acc  /= n_batches
 
         print(f'Epoch {epoch + 1}/{epochs} | Loss: {epoch_loss:.4f} | Acc: {epoch_acc:.4f}')
+        if epoch_acc > history['Accuracy']:
+            history['Accuracy'] = epoch_acc
+            history['Loss'] = epoch_loss
+    save_history(history)
 
 
 def evaluate(model: NeuralNetwork, X_test: np.ndarray, y_test: np.ndarray) -> float:
