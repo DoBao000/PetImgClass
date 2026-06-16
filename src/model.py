@@ -6,13 +6,7 @@ class Activate:
         return np.maximum(0, Z)
 
     def reLU_grad(self, Z: np.ndarray) -> np.ndarray:
-        """Derivative of ReLU w.r.t. the pre-activation Z (not the output A)."""
         return (Z > 0).astype(float)
-
-    def softmax(self, Z: np.ndarray) -> np.ndarray:
-        Z_shifted = Z - np.max(Z, axis=1, keepdims=True)  # Numerical stability
-        exp_vals  = np.exp(Z_shifted)
-        return exp_vals / np.sum(exp_vals, axis=1, keepdims=True)
 
 
 class NeuralNetwork:
@@ -20,7 +14,6 @@ class NeuralNetwork:
         self.lr = lr
         self.activate = Activate()
 
-        # He initialization: better gradient flow with ReLU
         self.W1 = np.random.randn(input_size, hidden_size) * np.sqrt(2.0 / input_size)
         self.b1 = np.zeros((1, hidden_size))
 
@@ -28,9 +21,9 @@ class NeuralNetwork:
         self.b2 = np.zeros((1, output_size))
 
     def forward(self, X: np.ndarray) -> np.ndarray:
-        self.Z1 = X @ self.W1 + self.b1        # Pre-activation (hidden)
+        self.Z1 = X @ self.W1 + self.b1
         self.A1 = self.activate.reLU(self.Z1)
-        self.Z2 = self.A1 @ self.W2 + self.b2  # Pre-activation (output)
+        self.Z2 = self.A1 @ self.W2 + self.b2
         self.A2 = self.activate.softmax(self.Z2)
         return self.A2
 

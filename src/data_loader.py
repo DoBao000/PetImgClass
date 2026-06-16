@@ -38,9 +38,9 @@ def normalize_data(X: np.ndarray, img_size: tuple) -> tuple[np.ndarray, np.ndarr
 
     mean_ch = X_img.mean(axis=(0, 1, 2))  # (3,)
     std_ch  = X_img.std(axis=(0, 1, 2))   # (3,)
-    std_ch[std_ch == 0] = 1               # Avoid division by zero
+    std_ch[std_ch == 0] = 1
 
-    X_norm = (X_img - mean_ch) / std_ch   # Broadcast over (N, H, W, 3)
+    X_norm = (X_img - mean_ch) / std_ch   # (N, H, W, 3)
     return X_norm.reshape(N, H * W * 3), mean_ch, std_ch
 
 

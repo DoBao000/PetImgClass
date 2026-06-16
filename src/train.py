@@ -59,7 +59,6 @@ def train(model: NeuralNetwork, X_train: np.ndarray, y_train: np.ndarray,
 
 
 def evaluate(model: NeuralNetwork, X_test: np.ndarray, y_test: np.ndarray) -> float:
-    """Evaluate model accuracy on the test set."""
     test_pred = model.predict(X_test)
     test_acc  = np.mean(test_pred == y_test)
     print(f'\nTest Accuracy: {test_acc:.4f}')
